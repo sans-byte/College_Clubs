@@ -1,25 +1,28 @@
 import React from "react";
-import { useState } from 'react';
-import { Link } from "react-router-dom"
+import { useContext, useState } from "react";
+import { Link } from "react-router-dom";
+import UserContext from "../context/UserContext";
 
 function SignInPage() {
+  const { user, setUser } = useContext(UserContext);
 
-  const [user , setUser] = useState({
-    firstName:"",lastName:"",college:"",password:"",confirmPassword:"",email:"",phoneNumber:"",
-  })
-  const handleChange = (e)=>{
+  const handleChange = (e) => {
     e.preventDefault();
     const name = e.target.name;
     const value = e.target.value;
-    setUser({...user,[name]:value});
-    console.log(user);
-  }
+    setUser({ ...user, [name]: value });
+  };
 
   return (
     <>
-      <div className="hero min-h-screen" style={{backgroundImage:`url(../images/Puzzle.png)`,
-      backgroundSize:"cover",backgroundRepeat:"no-repeat"
-      }}>
+      <div
+        className="hero min-h-screen"
+        style={{
+          backgroundImage: `url(../images/Puzzle.png)`,
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
         <div className="flex-col justify-center hero-content lg:flex-row ">
           <div className="text-center lg:text-left">
             <h1 className="mb-5 text-5xl font-bold text-neutral">Register</h1>
@@ -28,8 +31,10 @@ function SignInPage() {
               brainstroming and show the world your talent...
             </p>
           </div>
-          <div className="rounded-md shadow-2xl bg-base-100 bg-opacity-90
-          ">
+          <div
+            className="rounded-md shadow-2xl bg-base-100 bg-opacity-90
+          "
+          >
             <div className="p-5">
               <form method="post" action="/register">
                 <div className="form-control flex flex-row">
@@ -88,7 +93,7 @@ function SignInPage() {
                     name="email"
                     placeholder="Email"
                     className="input input-primary"
-                    autoComplete = "off"
+                    autoComplete="off"
                     onChange={handleChange}
                     value={user.email}
                   />
@@ -136,13 +141,19 @@ function SignInPage() {
                   />
                 </div> */}
                 <div className="form-control mt-6">
-                  <input
-                    type="button"
-                    value="Register"
-                    className="btn btn-secondary"
-                  />
+                  <Link to="/register/interest">
+                    <button type="button" className="btn btn-secondary">
+                      {" "}
+                      PROCEED
+                    </button>
+                  </Link>
                 </div>
-                <p className="text-neutral">Already have an account ?<Link to="/login"><span className="text-primary"> Login </span></Link></p>
+                <p className="text-neutral">
+                  Already have an account ?
+                  <Link to="/login">
+                    <span className="text-primary"> Login </span>
+                  </Link>
+                </p>
               </form>
             </div>
           </div>

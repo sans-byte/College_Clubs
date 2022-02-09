@@ -19,7 +19,6 @@ router.post("/register", async (req, res) => {
     email,
     college,
     password,
-    confirmPassword,
     interests,
   } = req.body;
 
@@ -30,7 +29,6 @@ router.post("/register", async (req, res) => {
     !email ||
     !college ||
     !password ||
-    !confirmPassword ||
     !interests
   ) {
     return res.status(422).json({ error: "Please fill all the fields" });

@@ -32,7 +32,8 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   interests: {
-    type: Object,
+    // TODO : convert it into an array:object for more precise filtering. 
+    type: String,
     required: true,
   },
   projects:{
