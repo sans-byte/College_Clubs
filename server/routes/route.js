@@ -4,23 +4,24 @@ const User = require("../models/userSchema");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Project = require("../models/projectSchema");
+const Authenticate = require("../middleware/authenticate");
 
 // INFO : GET routes
 router.get("/", (req, res) => {
   res.send("welcome");
 });
 
+router.get("/projects", Authenticate, (req, res) => {
+  console.log(req.rootUser);
+  res.send(req.rootUser);
+});
+
 // INFO : POST routes
 router.post("/register", async (req, res) => {
-  const {
-    firstName,
-    lastName,
-    phoneNumber,
-    email,
-    college,
-    password,
-    interests,
-  } = req.body;
+  const { firstName, lastName, phoneNumber, email, college, password } =
+    req.body;
+
+  console.log(req.body);
 
   if (
     !firstName ||
@@ -28,10 +29,9 @@ router.post("/register", async (req, res) => {
     !phoneNumber ||
     !email ||
     !college ||
-    !password ||
-    !interests
+    !password
   ) {
-    return res.status(422).json({ error: "Please fill all the fields" });
+    return res.status(422).send("here is the error");
   }
 
   // INFO : Validation if user already exist
@@ -40,10 +40,6 @@ router.post("/register", async (req, res) => {
     const userExist = await User.findOne({ email: email });
     if (userExist) {
       return res.status(422).json({ error: "User already exist" });
-    } else if (password != confirmPassword) {
-      return res
-        .status(422)
-        .json({ error: "Password and confirmPassword does not match" });
     }
 
     // INFO : creating user and saving in database
@@ -70,10 +66,10 @@ router.post("/signin", async (req, res) => {
       const isMatch = await bcrypt.compare(password, userLogin.password);
 
       const token = await userLogin.generateAuthToken();
-      res.cookie("jwtoken",token, {
-        expires:new Date(Date.now() + 25892000000),
-        httpOnly : true,
-      })
+      res.cookie("jwtoken", token, {
+        expires: new Date(Date.now() + 25892000000),
+        httpOnly: true,
+      });
 
       if (isMatch) {
         return res.status(200).json({ message: "User signin successfull" });
@@ -88,17 +84,24 @@ router.post("/signin", async (req, res) => {
   }
 });
 
-router.post("/projects", async(req,res)=>{
-  try{
-    const {author, description, memberRequired, pings, generationDate, lastApplyDate} = req.body;
+router.post("/projects", async (req, res) => {
+  try {
+    const {
+      author,
+      description,
+      memberRequired,
+      pings,
+      generationDate,
+      lastApplyDate,
+    } = req.body;
 
     console.log(req.body);
     const project = new Project(req.body);
 
     await project.save();
-    res.status(200).json({message : "porject posted"});
+    res.status(200).json({ message: "porject posted" });
     console.log(generationDate);
-  }catch(err){
+  } catch (err) {
     console.log(err, "from catch");
   }
 });

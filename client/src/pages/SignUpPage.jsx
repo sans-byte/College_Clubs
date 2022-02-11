@@ -3,7 +3,7 @@ import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import UserContext from "../context/UserContext";
 
-function SignInPage() {
+function SignUpPage() {
   const { user, setUser } = useContext(UserContext);
 
   const handleChange = (e) => {
@@ -48,7 +48,6 @@ function SignInPage() {
                       placeholder="First name"
                       className="input input-primary w-full"
                       name="firstName"
-                      autoComplete="off"
                       onChange={handleChange}
                       value={user.firstName}
                     />
@@ -61,7 +60,6 @@ function SignInPage() {
                       type="text"
                       className="input input-primary w-full"
                       name="lastName"
-                      autoComplete="off"
                       onChange={handleChange}
                       placeholder="Last name"
                       value={user.lastName}
@@ -77,7 +75,6 @@ function SignInPage() {
                     id="phoneNumber"
                     name="phoneNumber"
                     placeholder="Phone number"
-                    autoComplete="off"
                     onChange={handleChange}
                     className="input input-primary"
                     value={user.phoneNumber}
@@ -93,7 +90,6 @@ function SignInPage() {
                     name="email"
                     placeholder="Email"
                     className="input input-primary"
-                    autoComplete="off"
                     onChange={handleChange}
                     value={user.email}
                   />
@@ -108,7 +104,6 @@ function SignInPage() {
                     name="college"
                     placeholder="College"
                     className="input input-primary"
-                    autoComplete="off"
                     onChange={handleChange}
                     value={user.college}
                   />
@@ -123,7 +118,6 @@ function SignInPage() {
                     name="password"
                     placeholder="Password"
                     className="input input-primary"
-                    autoComplete="off"
                     onChange={handleChange}
                     value={user.password}
                   />
@@ -163,4 +157,4 @@ function SignInPage() {
   );
 }
 
-export default SignInPage;
+export default SignUpPage;

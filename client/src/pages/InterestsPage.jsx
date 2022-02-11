@@ -52,7 +52,7 @@ function InterestsPage() {
       window.alert("Invalid registration");
     } else {
       window.alert("Registration success");
-      navigate("/register/interest");
+      navigate("/login");
     }
   };
 

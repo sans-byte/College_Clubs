@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   phoneNumber: {
-    type: Number,
+    type: String,
     required: true,
   },
   email: {
@@ -27,18 +27,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  confirmPassword: {
-    type: String,
-    required: true,
-  },
   interests: {
-    // TODO : convert it into an array:object for more precise filtering. 
+    // TODO : convert it into an array:object for more precise filtering.
     type: String,
-    required: true,
   },
-  projects:{
+  projects: {
     // TODO : add post id's : object refrence
-    type:String,
+    type: String,
     ref: "Project",
   },
   tokens: [
@@ -56,7 +51,6 @@ const userSchema = new mongoose.Schema({
 userSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
     this.password = await bcrypt.hash(this.password, 12);
-    this.confirmPassword = await bcrypt.hash(this.confirmPassword, 12);
   }
   next();
 });
@@ -65,7 +59,10 @@ userSchema.pre("save", async function (next) {
 
 userSchema.methods.generateAuthToken = async function () {
   try {
-    let generatedToken = jwt.sign({ _id: this._id }, process.env.SECRET_KEY);
+    let generatedToken = jwt.sign(
+      { _id: this._id },
+      process.env.SECRET_KEY
+    );
     this.tokens = this.tokens.concat({ token: generatedToken });
     await this.save();
     return this.tokens;
