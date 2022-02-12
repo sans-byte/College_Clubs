@@ -82,7 +82,7 @@ function ShowProjectsPage() {
         <div class="badge badge-outline p-4 cursor-pointer">Android</div>
         <div class="badge badge-outline p-4 cursor-pointer">App development</div>
       </div>
-      <div className="w-4/5 bg-slate-200 rounded-lg ml-2 mt-10"><ProjectList/></div>
+      <div className="w-4/5 ml-2 mt-10"><ProjectList/></div>
       <div className=" absolute bottom-10 right-10">
           <button className="btn btn-primary text-3xl flex justify-center items-center rounded-full w-14 h-14" >+</button>
       </div>

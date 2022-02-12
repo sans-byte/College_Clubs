@@ -3,7 +3,6 @@ import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import Navbar from "../components/Navbar";
-import { FiChevronsUp } from "react-icons/fi";
 import ShowProjectsPage from "./ShowProjectsPage";
 
 function ShowProjects() {
