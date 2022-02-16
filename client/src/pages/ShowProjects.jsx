@@ -40,15 +40,15 @@ function ShowProjects() {
       {/* // BUG : request for user data is not full filled */}
       {/* <Navbar /> */}
 
-      <div class="rounded-lg shadow bg-base-200 drawer drawer-mobile h-screen" >
-        <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
-        <div class="drawer-content">
+      <div className="rounded-lg shadow bg-base-200 drawer drawer-mobile h-screen" >
+        <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
+        <div className="drawer-content">
           <ShowProjectsPage></ShowProjectsPage>
         </div>
           <p className="absolute p-5 ml-20 text-2xl text-primary">Space</p>
-        <div class="drawer-side flex items-center">
-          <label for="my-drawer-2" class="drawer-overlay"></label>
-          <ul class="menu p-4 pr-0 overflow-y-auto w-80 bg-base-100 text-base-content">
+        <div className="drawer-side flex items-center">
+          <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
+          <ul className="menu p-4 pr-0 overflow-y-auto w-80 bg-base-100 text-base-content">
             <li className="bg-primary-focus rounded-bl-lg rounded-tl-lg">
               <a>HOME</a> 
             </li>

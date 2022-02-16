@@ -18,7 +18,7 @@ function Navbar() {
           {!userData ? (
             <Link to="/register">
               <button className="px-3 py-2 mx-2 btn-primary rounded-lg cursor-pointer">
-                Get Started
+                Register
                 <FiArrowRight className="ml-1 inline" />
               </button>
             </Link>

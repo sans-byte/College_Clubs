@@ -12,26 +12,15 @@ router.get("/", (req, res) => {
 });
 
 router.get("/projects", Authenticate, (req, res) => {
-  console.log(req.rootUser);
   res.send(req.rootUser);
 });
 
 // INFO : POST routes
 router.post("/register", async (req, res) => {
-  const { firstName, lastName, phoneNumber, email, college, password } =
-    req.body;
+  const { firstName, lastName, email, password } = req.body;
 
-  console.log(req.body);
-
-  if (
-    !firstName ||
-    !lastName ||
-    !phoneNumber ||
-    !email ||
-    !college ||
-    !password
-  ) {
-    return res.status(422).send("here is the error");
+  if (!firstName || !lastName || !email || !password) {
+    return res.status(422).json({ error: "Please provide all the fields" });
   }
 
   // INFO : Validation if user already exist
@@ -95,12 +84,10 @@ router.post("/projects", async (req, res) => {
       lastApplyDate,
     } = req.body;
 
-    console.log(req.body);
     const project = new Project(req.body);
 
     await project.save();
     res.status(200).json({ message: "porject posted" });
-    console.log(generationDate);
   } catch (err) {
     console.log(err, "from catch");
   }

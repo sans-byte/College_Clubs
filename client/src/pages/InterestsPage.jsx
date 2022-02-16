@@ -1,5 +1,4 @@
 import { React, useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
 
 import UserContext from "../context/UserContext";
 
@@ -17,7 +16,6 @@ import {
 function InterestsPage() {
   const [buttonSelected, setButtonSelected] = useState("");
 
-  const navigate = useNavigate();
 
   let interests;
   const { user } = useContext(UserContext);
@@ -28,33 +26,6 @@ function InterestsPage() {
     setButtonSelected(e.target.name);
   };
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    const { firstName, lastName, college, phoneNumber, password, email } = user;
-
-    const res = await fetch("/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        firstName,
-        lastName,
-        college,
-        phoneNumber,
-        password,
-        email,
-        interests,
-      }),
-    });
-    const data = await res.json();
-    if (data.status === 422 || !data) {
-      window.alert("Invalid registration");
-    } else {
-      window.alert("Registration success");
-      navigate("/login");
-    }
-  };
 
   return (
     <>
@@ -219,8 +190,8 @@ function InterestsPage() {
             </div>
           </div>
         </div>
-        <button className="btn btn-secondary w-3/5" onClick={handleRegister}>
-          Register
+        <button className="btn btn-secondary w-3/5">
+          Proceed
         </button>
       </div>
     </>

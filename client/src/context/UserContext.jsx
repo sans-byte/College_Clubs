@@ -8,12 +8,8 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
-    college: "",
     password: "",
-    confirmPassword: "",
     email: "",
-    phoneNumber: "",
-    interest: "",
   });
   const [userData, setUserData] = useState();
 
