@@ -5,6 +5,10 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Project = require("../models/projectSchema");
 const Authenticate = require("../middleware/authenticate");
+const {
+  registerController,
+  activationController,
+} = require("../middleware/authController");
 
 // INFO : GET routes
 router.get("/", (req, res) => {
@@ -16,30 +20,8 @@ router.get("/projects", Authenticate, (req, res) => {
 });
 
 // INFO : POST routes
-router.post("/register", async (req, res) => {
-  const { firstName, lastName, email, password } = req.body;
-
-  if (!firstName || !lastName || !email || !password) {
-    return res.status(422).json({ error: "Please provide all the fields" });
-  }
-
-  // INFO : Validation if user already exist
-
-  try {
-    const userExist = await User.findOne({ email: email });
-    if (userExist) {
-      return res.status(422).json({ error: "User already exist" });
-    }
-
-    // INFO : creating user and saving in database
-    const user = new User(req.body);
-    await user.save();
-    return res.status(201).json({ message: "Success" });
-  } catch (err) {
-    console.log(err);
-  }
-});
-
+router.post("/register", registerController);
+router.post("/activation", activationController);
 router.post("/signin", async (req, res) => {
   try {
     const { email, password } = req.body;

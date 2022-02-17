@@ -3,12 +3,13 @@ import { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
-import { FaExclamationTriangle } from "react-icons/fa";
+import { FaExclamationTriangle, FaGoogle } from "react-icons/fa";
+import { GoogleLogin } from "react-google-login";
 
 function SignUpPage() {
   const [formError, setFormError] = useState({});
   const [submit, setSubmit] = useState(false);
-  const [alert, setalert] = useState(false);
+  const [message, setMessage] = useState("");
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -38,9 +39,9 @@ function SignUpPage() {
   // info : showing the alert for three seconds
   useEffect(() => {
     setTimeout(() => {
-      setalert(false);
+      setMessage("");
     }, 1000 * 3);
-  }, [alert]);
+  }, [message]);
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -69,27 +70,65 @@ function SignUpPage() {
       });
       const data = await res;
       if (data.status === 422 || !data) {
+        setMessage("Reject");
         console.log("User already exist");
-        setalert(true);
       } else {
-        window.alert("Registration success");
+        setMessage("Success");
+        console.log("Success");
+        // window.alert("Registration success");
         // navigate("/login");
       }
     }
   };
 
+  // info : functions for google sign up success or failure
+  const googleSuccess = (res) => {
+    console.log(res);
+  };
+  const googleFailure = (res) => {
+    console.log(res);
+  };
+
   return (
     <>
       <div className="hero min-h-screen">
-        {alert ? (
+        {message === "Reject" ? (
           <div className="alert shadow-lg alert-error z-10 top-10 absolute text-center">
-            <FaExclamationTriangle className="m-2"/> User already exist
+            <FaExclamationTriangle className="m-2" /> User already exist
+          </div>
+        ) : null}
+        {message === "Success" ? (
+          <div className="alert shadow-lg alert-info z-10 top-10 absolute text-center">
+            <FaExclamationTriangle className="m-2" /> Email sent to your account
           </div>
         ) : null}
         <div className="flex-col justify-center hero-content lg:flex-row ">
           <div className="rounded-md shadow-2xl bg-base-100 bg-opacity-90">
             <div className="p-5">
-              <div className="text-center">Sign up with google</div>
+              <GoogleLogin
+                clientId="479218861110-hm1rhtjklh99es8qkb60l6iiolqgfkhi.apps.googleusercontent.com"
+                render={(renderProps) => (
+                  <>
+                    <div className="w-full btn btn-primary">
+                      <FaGoogle className="m-2" />
+                      <button
+                        className=""
+                        onClick={renderProps.onClick}
+                        disabled={renderProps.disabled}
+                        color="primary"
+                        varient="content"
+                        icon={<FaGoogle />}
+                      >
+                        Sign up with Google
+                      </button>
+                    </div>
+                  </>
+                )}
+                icon={<FaGoogle />}
+                onSuccess={googleSuccess}
+                onFailure={googleFailure}
+                cookiePolicy="single_host_origin"
+              />
               <div className="divider">OR</div>
               <form method="post" onSubmit={handleRegister}>
                 <div className="form-control flex flex-row">
