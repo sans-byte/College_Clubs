@@ -3,10 +3,12 @@ import { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
+import { FaExclamationTriangle } from "react-icons/fa";
 
 function SignUpPage() {
   const [formError, setFormError] = useState({});
   const [submit, setSubmit] = useState(false);
+  const [alert, setalert] = useState(false);
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -24,15 +26,21 @@ function SignUpPage() {
     }
     if (!value.password) {
       errors.password = "Password is required";
-    } else if (value.password.length < 3) {
+    } else if (value.password.length <= 3) {
       errors.password = "Password must me longer than 3 characters";
     }
     return errors;
   };
   useEffect(() => {
-    setFormError({});
     setFormError(validate(user));
   }, [user]);
+
+  // info : showing the alert for three seconds
+  useEffect(() => {
+    setTimeout(() => {
+      setalert(false);
+    }, 1000 * 3);
+  }, [alert]);
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -41,6 +49,7 @@ function SignUpPage() {
     // console.log(user);
   };
 
+  // info : handile registration and posting the data to /register route
   const handleRegister = async (e) => {
     e.preventDefault();
     const { firstName, lastName, password, email } = user;
@@ -60,7 +69,8 @@ function SignUpPage() {
       });
       const data = await res;
       if (data.status === 422 || !data) {
-        window.alert("Invalid registration");
+        console.log("User already exist");
+        setalert(true);
       } else {
         window.alert("Registration success");
         // navigate("/login");
@@ -71,6 +81,11 @@ function SignUpPage() {
   return (
     <>
       <div className="hero min-h-screen">
+        {alert ? (
+          <div className="alert shadow-lg alert-error z-10 top-10 absolute text-center">
+            <FaExclamationTriangle className="m-2"/> User already exist
+          </div>
+        ) : null}
         <div className="flex-col justify-center hero-content lg:flex-row ">
           <div className="rounded-md shadow-2xl bg-base-100 bg-opacity-90">
             <div className="p-5">

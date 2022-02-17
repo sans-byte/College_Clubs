@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { FaExclamationCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
@@ -7,6 +8,7 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [formError, setFormError] = useState({});
   const [submit, setSubmit] = useState();
+  const [alert, setAlert] = useState(false);
 
   const navigate = useNavigate();
   const validate = (email, password) => {
@@ -25,6 +27,11 @@ function LoginPage() {
   useEffect(() => {
     setFormError(validate(email, password));
   }, [email, password]);
+  useEffect(() => {
+    setTimeout(() => {
+      setAlert(false);
+    }, 3 * 1000);
+  }, [alert]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -42,6 +49,7 @@ function LoginPage() {
 
     const data = res.json();
     if (res.status === 400 || !data) {
+      setAlert(true);
       console.log("invalid credentials");
     } else {
       console.log("login success");
@@ -52,6 +60,12 @@ function LoginPage() {
   return (
     <div>
       <div className="hero min-h-screen bg-base-200">
+        {alert ? (
+          <div className="alert shadow-lg alert-error absolute z-10 top-10">
+            <FaExclamationCircle className="m-2" />
+            Invalid Credentials
+          </div>
+        ) : null}
         <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100 bg-opacity-90">
           <div className="card-body">
             <form method="POST" onSubmit={handleLogin}>
