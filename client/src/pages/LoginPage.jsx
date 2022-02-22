@@ -2,6 +2,8 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { FaExclamationCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { FaGoogle } from "react-icons/fa";
+import { GoogleLogin } from "react-google-login";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -47,14 +49,22 @@ function LoginPage() {
       }),
     });
 
-    const data = res.json();
+    const data = await res.json();
+    console.log(data);
     if (res.status === 400 || !data) {
       setAlert(true);
       console.log("invalid credentials");
     } else {
       console.log("login success");
-      navigate("/projects");
+      navigate(`/userinfo/${data._id}`);
     }
+  };
+
+  const googleSuccess = async (res) => {
+    console.log(res);
+  };
+  const googleFailure = (err) => {
+    console.log(err, "error form google failure function");
   };
 
   return (
@@ -68,6 +78,31 @@ function LoginPage() {
         ) : null}
         <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100 bg-opacity-90">
           <div className="card-body">
+            <GoogleLogin
+              clientId="479218861110-hm1rhtjklh99es8qkb60l6iiolqgfkhi.apps.googleusercontent.com"
+              render={(renderProps) => (
+                <>
+                  <div className="w-full btn btn-primary">
+                    <FaGoogle className="m-2" />
+                    <button
+                      className=""
+                      onClick={renderProps.onClick}
+                      disabled={renderProps.disabled}
+                      color="primary"
+                      varient="content"
+                      icon={<FaGoogle />}
+                    >
+                      Sign In with Google
+                    </button>
+                  </div>
+                </>
+              )}
+              icon={<FaGoogle />}
+              onSuccess={googleSuccess}
+              onFailure={googleFailure}
+              cookiePolicy="single_host_origin"
+            />
+            <div className="divider">OR</div>
             <form method="POST" onSubmit={handleLogin}>
               <div className="form-control">
                 <label className="label">

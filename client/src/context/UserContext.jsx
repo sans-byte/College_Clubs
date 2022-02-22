@@ -13,15 +13,12 @@ export const UserProvider = ({ children }) => {
   });
   const [userData, setUserData] = useState();
 
-  const [interest, setInterest] = useState("");
-
   return (
     <UserContext.Provider
       value={{
         user,
         userData,
         setUser,
-        setInterest,
         setUserData,
       }}
     >

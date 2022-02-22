@@ -1,6 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
+const fileUpload = require("express-fileupload");
 
 const User = require("./models/userSchema");
 const route = require("./routes/route");
@@ -12,6 +13,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(fileUpload());
 app.use(route);
 
 app.listen(

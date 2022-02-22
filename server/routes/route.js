@@ -9,17 +9,28 @@ const {
   registerController,
   activationController,
 } = require("../middleware/authController");
+const { response } = require("express");
+const { on } = require("nodemailer/lib/xoauth2");
 
 // INFO : GET routes
 router.get("/", (req, res) => {
   res.send("welcome");
 });
 
-router.get("/projects", Authenticate, (req, res) => {
+router.get("/projects/", Authenticate, (req, res) => {
+  console.log(req.params);
   res.send(req.rootUser);
 });
 
 // INFO : POST routes
+
+router.post("/userinfo/:id", (req, res) => {
+  console.log(req);
+  // console.log(req.body);
+  // console.log(req.body.files);
+  res.status(200).send("success");
+});
+
 router.post("/register", registerController);
 router.post("/activation", activationController);
 router.post("/signin", async (req, res) => {
@@ -32,6 +43,7 @@ router.post("/signin", async (req, res) => {
 
     // INFO : finding user and checking for credentials
     const userLogin = await User.findOne({ email });
+    console.log(userLogin);
 
     if (userLogin) {
       const isMatch = await bcrypt.compare(password, userLogin.password);
@@ -43,7 +55,7 @@ router.post("/signin", async (req, res) => {
       });
 
       if (isMatch) {
-        return res.status(200).json({ message: "User signin successfull" });
+        return res.status(200).send(userLogin);
       } else {
         return res.status(400).json({ error: "Invalid credentials" });
       }
