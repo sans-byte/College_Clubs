@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/userSchema");
+const UserData = require("../models/userDataSchema");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Project = require("../models/projectSchema");
@@ -8,29 +9,64 @@ const Authenticate = require("../middleware/authenticate");
 const {
   registerController,
   activationController,
+  userInfoController,
 } = require("../middleware/authController");
-const { response } = require("express");
-const { on } = require("nodemailer/lib/xoauth2");
+const e = require("express");
 
 // INFO : GET routes
 router.get("/", (req, res) => {
   res.send("welcome");
 });
 
-router.get("/projects/", Authenticate, (req, res) => {
+router.get("/userinfo/:id", async (req, res) => {
+  const id = req.params.id;
+  await User.findById(id).exec(async (err, foundUser) => {
+    if (err) {
+      console.log("This is from route.js 24");
+      console.log(err);
+      return res
+        .status(400)
+        .json({ error: "Something is wrong in route.js 26" });
+    } else {
+      if (!foundUser.info) {
+        return res
+          .status(400)
+          .json({ message: "Everything is fine till now 33" });
+      } else {
+        const userDataId = foundUser.info._id;
+        await UserData.findById(userDataId).exec(async (err, foundData) => {
+          if (err) {
+            console.log("This error is form route.js 32");
+            console.log(err);
+            return res
+              .status(400)
+              .json({ error: "No userData found in route.js 38" });
+          } else {
+            if (!foundData) {
+              return res
+                .status(400)
+                .json({ error: "No userData found in route.js 41" });
+            } else {
+              console.log("This message is from route.js 43");
+              return res
+                .status(200)
+                .json({ message: "Everything is fine till now 44" });
+            }
+          }
+        });
+      }
+    }
+  });
+});
+
+router.get("/projects/:id", Authenticate, (req, res) => {
   console.log(req.params);
   res.send(req.rootUser);
 });
 
 // INFO : POST routes
 
-router.post("/userinfo/:id", (req, res) => {
-  console.log(req);
-  // console.log(req.body);
-  // console.log(req.body.files);
-  res.status(200).send("success");
-});
-
+router.post("/userinfo/:id", userInfoController);
 router.post("/register", registerController);
 router.post("/activation", activationController);
 router.post("/signin", async (req, res) => {

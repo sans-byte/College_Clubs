@@ -32,7 +32,7 @@ function App() {
             element={<ActivationPage />}
           ></Route>
           <Route path="/userinfo/:id" element={<UserInfo />}></Route>
-          <Route path="/projects" element={<ShowProjects />}></Route>
+          <Route path="/projects/:id" element={<ShowProjects />}></Route>
         </Routes>
       </Router>
     </UserProvider>

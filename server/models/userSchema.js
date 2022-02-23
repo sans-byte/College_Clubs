@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const UserData = require("../models/userDataSchema");
 
 const userSchema = new mongoose.Schema({
   firstName: {
@@ -11,23 +12,18 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  phoneNumber: {
-    type: String,
-  },
   email: {
     type: String,
     required: true,
-  },
-  college: {
-    type: String,
   },
   password: {
     type: String,
     required: true,
   },
-  interests: {
+  info: {
     // TODO : convert it into an array:object for more precise filtering.
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "UserData",
   },
   projects: {
     // TODO : add post id's : object refrence

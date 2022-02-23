@@ -13,7 +13,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(fileUpload());
+// app.use(fileUpload()); // note : this was stopping formidable parse to run
 app.use(route);
 
 app.listen(

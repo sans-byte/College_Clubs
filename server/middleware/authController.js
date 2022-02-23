@@ -1,7 +1,10 @@
 const User = require("../models/userSchema");
+const UserData = require("../models/userDataSchema");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
+const formidable = require("formidable");
+const fs = require("fs");
 
 // info : transporter function to send email
 const createTransporter = async () => {
@@ -85,6 +88,7 @@ exports.registerController = async (req, res) => {
   }
 };
 
+// info : controller for activation of user account after sending email
 exports.activationController = async (req, res) => {
   const { token } = req.body;
   console.log(token);
@@ -117,4 +121,51 @@ exports.activationController = async (req, res) => {
   } else {
     res.status(422).json({ message: "Error getting token" });
   }
+};
+
+// info : controller for taking user information and add it to the database
+exports.userInfoController = async (req, res) => {
+  const form = new formidable.IncomingForm();
+  form.parse(req, async (err, fields, file) => {
+    if (fields) {
+      const { gender, date_of_birth, interest } = fields;
+      if (!gender || !date_of_birth || !interest) {
+        res.status(422).json("please fill required fields");
+      }
+    }
+    if (file.resume) {
+      const userData = new UserData(fields);
+      // info : saving user id into the user data
+      const id = req.params.id;
+      userData.user.id = id;
+      userData.resume.data = fs.readFileSync(file.resume.filepath);
+      userData.resume.contentType = file.resume.type;
+
+      await userData.save(async (err, userData) => {
+        if (err) {
+          return res.json({
+            error: "not save in database",
+          });
+        }
+        await User.findById(id).exec(async (err, user) => {
+          if (err) {
+            console.log("this is from userData .save");
+            console.log(err);
+          } else {
+            user.info = userData;
+            await user.save();
+            // await user.populate("info").then((user) => {
+            //   console.log(user);
+            // });
+            // await User.findById(id)
+            //   .populate("info")
+            //   .exec((err, data) => {
+            //     console.log(data);
+            //   });
+            return res.status(200).json(userData);
+          }
+        });
+      });
+    }
+  });
 };

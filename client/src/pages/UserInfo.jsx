@@ -1,8 +1,25 @@
 import React from "react";
-import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
 function UserInfo() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  // info : on page load if the user has already been given information then redirect to projects page
+  useEffect(async () => {
+    const res = await fetch(`/userinfo/${id}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+    if (res.status === 200) {
+      navigate(`/projects/${id}`);
+    }
+  }, []);
+
   const [userInfo, setUserInfo] = useState({
     gender: "",
     date_of_birth: "",
@@ -11,27 +28,30 @@ function UserInfo() {
     linkdln: "",
     github: "",
     resume: "",
+    formData: new FormData(),
   });
-  const { id } = useParams();
-
+  const { formData } = userInfo;
   const handleChange = (e) => {
     e.preventDefault();
+    const { name } = e.target;
+    const value = name === "resume" ? e.target.files[0] : e.target.value;
     console.log(e.target.value);
-    const { name, value } = e.target;
-    const resume = e.target.files ? e.target.files[0] : "";
-    setUserInfo({ ...userInfo, [name]: value, resume: resume });
+    formData.set(name, value);
+    setUserInfo({ ...userInfo, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(userInfo);
-    const res = await fetch(`/userInfo/${id}`, {
+    const res = await fetch(`/userinfo/${id}`, {
       method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(userInfo),
+      body: formData,
     });
+    const data = await res;
+    if (res.status === 200) {
+      navigate(`/projects/${id}`);
+    } else {
+      navigate(`/login`);
+    }
   };
 
   const options = [
