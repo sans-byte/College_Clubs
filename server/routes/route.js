@@ -22,7 +22,6 @@ router.get("/userinfo/:id", async (req, res) => {
   const id = req.params.id;
   await User.findById(id).exec(async (err, foundUser) => {
     if (err) {
-      console.log("This is from route.js 24");
       console.log(err);
       return res
         .status(400)
@@ -36,7 +35,6 @@ router.get("/userinfo/:id", async (req, res) => {
         const userDataId = foundUser.info._id;
         await UserData.findById(userDataId).exec(async (err, foundData) => {
           if (err) {
-            console.log("This error is form route.js 32");
             console.log(err);
             return res
               .status(400)
@@ -47,7 +45,6 @@ router.get("/userinfo/:id", async (req, res) => {
                 .status(400)
                 .json({ error: "No userData found in route.js 41" });
             } else {
-              console.log("This message is from route.js 43");
               return res
                 .status(200)
                 .json({ message: "Everything is fine till now 44" });
@@ -79,7 +76,6 @@ router.post("/signin", async (req, res) => {
 
     // INFO : finding user and checking for credentials
     const userLogin = await User.findOne({ email });
-    console.log(userLogin);
 
     if (userLogin) {
       const isMatch = await bcrypt.compare(password, userLogin.password);

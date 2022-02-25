@@ -1,10 +1,28 @@
 import React from "react";
+import { useRef } from "react";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 function UserInfo() {
   const { id } = useParams();
   const navigate = useNavigate();
+
+  const [userInfo, setUserInfo] = useState({
+    gender: "",
+    date_of_birth: "",
+    picture: "",
+    interest: "",
+    college: "",
+    linkdln: "",
+    github: "",
+    resume: "",
+    formData: new FormData(),
+  });
+
+  const [image, setImage] = useState();
+  const [preview, setPreview] = useState();
+
+  const imageInputRef = useRef();
 
   // info : on page load if the user has already been given information then redirect to projects page
   useEffect(async () => {
@@ -20,22 +38,33 @@ function UserInfo() {
     }
   }, []);
 
-  const [userInfo, setUserInfo] = useState({
-    gender: "",
-    date_of_birth: "",
-    interest: "",
-    college: "",
-    linkdln: "",
-    github: "",
-    resume: "",
-    formData: new FormData(),
-  });
+  useEffect(() => {
+    if (image) {
+      const reader = new FileReader();
+      reader.readAsDataURL(image);
+      reader.onloadend = () => {
+        setPreview(reader.result);
+      };
+    } else {
+      setPreview(null);
+    }
+  }, [image]);
+
   const { formData } = userInfo;
+
   const handleChange = (e) => {
     e.preventDefault();
     const { name } = e.target;
-    const value = name === "resume" ? e.target.files[0] : e.target.value;
-    console.log(e.target.value);
+    console.log(e);
+    const value =
+      name === "resume" || name === "picture"
+        ? e.target.files[0]
+        : e.target.value;
+    console.log(e.target);
+    if (name === "picture" && value && value.type.substr(0, 5) === "image") {
+      // todo : check for image size and send alert
+      setImage(value);
+    }
     formData.set(name, value);
     setUserInfo({ ...userInfo, [name]: value });
   };
@@ -129,7 +158,7 @@ function UserInfo() {
                     </label>
                   </div>
                   <div>
-                    <label className="">Date of Birth</label>
+                    <label className="label">Date of Birth</label>
                     <input
                       type="date"
                       placeholder="Date"
@@ -137,6 +166,36 @@ function UserInfo() {
                       name="date_of_birth"
                       onChange={handleChange}
                       value={userInfo.date_of_birth}
+                    />
+                  </div>
+                  <label htmlFor="" className="label">
+                    Profile Picture
+                  </label>
+                  <div className="flex flex-row">
+                    {preview ? (
+                      <div className="w-36 h-36 overflow-hidden rounded-full bg-white">
+                        <img src={preview} alt="" className="object-cover" />
+                      </div>
+                    ) : (
+                      <button
+                        type="image"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          imageInputRef.current.click();
+                        }}
+                        className="w-36 h-36 rounded-full bg-white text-neutral"
+                      >
+                        Add picture
+                      </button>
+                    )}
+
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="inline text-sm text-slate-500 file:hidden my-auto m-4"
+                      name="picture"
+                      ref={imageInputRef}
+                      onChange={handleChange}
                     />
                   </div>
                 </div>

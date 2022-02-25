@@ -13,13 +13,17 @@ export const UserProvider = ({ children }) => {
   });
   const [userData, setUserData] = useState();
 
+  const getUserData= (data)=>{
+    setUserData(data);
+  }
+
   return (
     <UserContext.Provider
       value={{
         user,
         userData,
         setUser,
-        setUserData,
+        getUserData,
       }}
     >
       {children}

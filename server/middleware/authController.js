@@ -133,11 +133,15 @@ exports.userInfoController = async (req, res) => {
         res.status(422).json("please fill required fields");
       }
     }
-    if (file.resume) {
+    console.log(file);
+
+    if (file.resume && file.picture) {
       const userData = new UserData(fields);
       // info : saving user id into the user data
       const id = req.params.id;
       userData.user.id = id;
+      userData.picture.data = fs.readFileSync(file.picture.filepath);
+      userData.picture.contentType = file.picture.type;
       userData.resume.data = fs.readFileSync(file.resume.filepath);
       userData.resume.contentType = file.resume.type;
 

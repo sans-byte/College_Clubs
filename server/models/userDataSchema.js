@@ -16,6 +16,10 @@ const userDataSchema = mongoose.Schema({
     type: Date,
     required: true,
   },
+  picture:{
+    data: Buffer,
+    contentType:String,
+  },
   interest: {
     type: String,
   },

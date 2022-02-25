@@ -1,7 +1,8 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { FaExclamationCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import UserContext from "../context/UserContext";
 import { FaGoogle } from "react-icons/fa";
 import { GoogleLogin } from "react-google-login";
 
@@ -11,6 +12,8 @@ function LoginPage() {
   const [formError, setFormError] = useState({});
   const [submit, setSubmit] = useState();
   const [alert, setAlert] = useState(false);
+
+  const { getUserData } = useContext(UserContext);
 
   const navigate = useNavigate();
   const validate = (email, password) => {
@@ -56,6 +59,7 @@ function LoginPage() {
       console.log("invalid credentials");
     } else {
       console.log("login success");
+      // getUserData(data);
       navigate(`/userinfo/${data._id}`);
     }
   };

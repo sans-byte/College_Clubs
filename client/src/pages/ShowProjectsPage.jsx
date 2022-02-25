@@ -1,9 +1,11 @@
 import React from "react";
 import ProjectList from "./ProjectList";
+import Navbar from "../components/Navbar";
 
 function ShowProjectsPage() {
   return (
     <div>
+      {/* <Navbar/> */}
       <div className="navbar mb-2 shadow-lg bg-neutral text-neutral-content">
         <div className="flex-none hidden lg:flex">
           <button className="btn btn-square btn-ghost"></button>
@@ -13,7 +15,7 @@ function ShowProjectsPage() {
         </div>
         <div className="flex-none">
           <button className="btn btn-square btn-ghost">
-            {/* TODO : add a notification button */}
+            TODO : add a notification button
           </button>
         </div>
         <div className="flex-none">
