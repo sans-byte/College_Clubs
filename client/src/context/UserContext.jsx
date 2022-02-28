@@ -12,6 +12,11 @@ export const UserProvider = ({ children }) => {
     email: "",
   });
   const [userData, setUserData] = useState();
+  const [userInfo,setUserInfo] = useState();
+
+  const getUserInfo = (data)=>{
+    setUserInfo(data);
+  }
 
   const getUserData= (data)=>{
     setUserData(data);
@@ -24,6 +29,8 @@ export const UserProvider = ({ children }) => {
         userData,
         setUser,
         getUserData,
+        userInfo,
+        getUserInfo,
       }}
     >
       {children}

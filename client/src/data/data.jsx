@@ -23,3 +23,4 @@ export const sideDrawerData = [
     icon: <FiCalendar className="inline" />,
   },
 ];
+

@@ -100,10 +100,10 @@ exports.activationController = async (req, res) => {
         return res.status(422).json({ error: "Token Expired" });
       } else {
         try {
-          console.log(decodedToken);
+          // console.log(decodedToken);
           // get name email password from token
           const { newUser } = decodedToken;
-          console.log(newUser);
+          // console.log(newUser);
           // info : creating user and saving in database
           const user = new User(newUser);
           const userExist = await User.findOne({ email: newUser.email });
@@ -133,7 +133,7 @@ exports.userInfoController = async (req, res) => {
         res.status(422).json("please fill required fields");
       }
     }
-    console.log(file);
+    // console.log(file);
 
     if (file.resume && file.picture) {
       const userData = new UserData(fields);

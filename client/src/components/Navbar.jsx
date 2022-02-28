@@ -7,9 +7,7 @@ import UserContext from "../context/UserContext";
 import SideDrawer from "../components/SideDrawer";
 
 function Navbar() {
-  const { userData } = useContext(UserContext);
-  console.log(userData, "userData from navbar");
-
+  const { userData, userInfo } = useContext(UserContext);
   const [showSideDrawer, setShowSideDrawer] = useState(false);
 
   return (
@@ -56,6 +54,11 @@ function Navbar() {
                 </button>
               </Link>
             )}
+            {userInfo ? (
+              <div className="avatar">
+                <div className="w-10 rounded-full"></div>
+              </div>
+            ) : null}
           </div>
         </div>
       </nav>

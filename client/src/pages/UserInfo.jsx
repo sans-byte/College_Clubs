@@ -34,7 +34,7 @@ function UserInfo() {
       },
     });
     if (res.status === 200) {
-      navigate(`/projects/${id}`);
+      navigate(`/user/${id}`);
     }
   }, []);
 

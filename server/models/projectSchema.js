@@ -3,14 +3,17 @@ const mongoose = require("mongoose");
 const projectSchema = new mongoose.Schema({
   author: {
     id: {
-    // TODO  : add author's id here make one to many relationship :- object refrence.
-      type: Number,
+      // TODO  : add author's id here make one to many relationship :- object refrence.
+      type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
     userName: {
       type: String,
-      required: true,
     },
+  },
+  title: {
+    type: String,
+    required: true,
   },
   description: {
     type: String,
@@ -22,7 +25,6 @@ const projectSchema = new mongoose.Schema({
   },
   pings: {
     type: Number,
-    required: true,
   },
   generationDate: {
     type: Date,
@@ -32,20 +34,27 @@ const projectSchema = new mongoose.Schema({
   lastApplyDate: {
     type: Date,
     // INFO : add 7 days in the current date;
-    default: +new Date() + 7*24*60*60*1000,
+    default: +new Date() + 7 * 24 * 60 * 60 * 1000,
     required: true,
   },
-  likes : {
-      type:Number,
-      default:0,
+  interest: {
+    type: String,
+    required: true,
   },
-  comment:[
-      {
-          // TODO : add comment id 
-          type:String,
-          ref:"Comment",
-      }
-  ]
+  field: {
+    type: String,
+  },
+  likes: {
+    type: Number,
+    default: 0,
+  },
+  comment: [
+    {
+      // TODO : add comment id
+      type: String,
+      ref: "Comment",
+    },
+  ],
 });
 
 module.exports = mongoose.model("Project", projectSchema);
