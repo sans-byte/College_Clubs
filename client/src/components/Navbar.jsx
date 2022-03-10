@@ -1,18 +1,44 @@
 import React from "react";
 import { useContext, useState } from "react";
 import { FiArrowRight, FiMenu } from "react-icons/fi";
-import { ReactComponent as Logo } from "../logo.svg";
-import { Link } from "react-router-dom";
+import { ReactComponent as Logo } from "../svgs/logo.svg";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import SideDrawer from "../components/SideDrawer";
 
 function Navbar() {
   const { userData, userInfo } = useContext(UserContext);
   const [showSideDrawer, setShowSideDrawer] = useState(false);
+  const data = (userInfo) => {
+    let TYPED_ARRAY = new Uint8Array(userInfo.picture.data.data);
+    const blob = new Blob([TYPED_ARRAY], { type: "image/jpeg" });
+    let urlCreator = window.URL || window.webkitURL;
+    let imageUrl = urlCreator.createObjectURL(blob);
+    return imageUrl;
+  };
+
+  const navigate = useNavigate();
+
+  const handleLogout = async (e) => {
+    try {
+      e.preventDefault();
+      const res = await fetch("/logout", {
+        method: "GET",
+        Accept: "application/json",
+      });
+      if (res.status === 200) {
+        console.log("UserLogout");
+        navigate("/login", { replace: true });
+      } else {
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
-      <nav className="navbar z-50 shadow-lg bg-neutral text-neutral-content w-full bg-opacity-80 fixed">
+      <nav className="navbar z-50 shadow-lg bg-neutral text-neutral-content w-full bg-opacity-80 fixed ">
         <button
           className=""
           onClick={(e) => {
@@ -49,14 +75,23 @@ function Navbar() {
               </Link>
             ) : (
               <Link to="">
-                <button className="px-3 py-2 mx-2 btn-primary rounded-lg cursor-pointer">
+                <button
+                  className="px-3 py-2 mx-2 btn-primary rounded-lg cursor-pointer"
+                  onClick={handleLogout}
+                >
                   Logout
                 </button>
               </Link>
             )}
             {userInfo ? (
               <div className="avatar">
-                <div className="w-10 rounded-full"></div>
+                <div className="w-10 h-10 rounded-full">
+                  <img
+                    src={`${data(userInfo)}`}
+                    alt=""
+                    className="object-cover"
+                  />
+                </div>
               </div>
             ) : null}
           </div>

@@ -20,7 +20,7 @@ const projectSchema = new mongoose.Schema({
     required: true,
   },
   membersRequired: {
-    type: Number,
+    type: String,
     required: true,
   },
   pings: {

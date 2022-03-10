@@ -1,7 +1,7 @@
 import React from "react";
 import { useContext } from "react";
 import { FiArrowRight } from "react-icons/fi";
-import { ReactComponent as Logo } from "../logo.svg";
+import { ReactComponent as Logo } from "../svgs/logo.svg";
 import { Link } from "react-router-dom";
 import UserContext from "../context/UserContext";
 

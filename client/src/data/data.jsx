@@ -1,11 +1,16 @@
 import React from "react";
-import { FiCalendar, FiHome, FiPenTool, FiUser } from "react-icons/fi";
+import { FiCalendar, FiHome, FiMessageCircle, FiPenTool, FiUser } from "react-icons/fi";
 
 export const sideDrawerData = [
   {
     title: "Home",
     path: "#",
-    icon: <FiHome className="inline" />,
+    icon: <FiHome className="inline p-0 m-0 border-0" />,
+  },
+  {
+    title: "Chats",
+    path: "/api/chat",
+    icon: <FiMessageCircle className="inline" />,
   },
   {
     title: "Project",

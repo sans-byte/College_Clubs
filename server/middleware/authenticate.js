@@ -9,7 +9,7 @@ const authenticate = async (req, res, next) => {
     const rootUser = await User.findOne({
       _id: verifyToken._id,
       "tokens.token": token,
-    });
+    }).populate("info");
 
     if (!rootUser) {
       throw new Error("User not found");
