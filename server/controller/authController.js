@@ -256,7 +256,7 @@ exports.allUsersController = async (req, res) => {
       ? {
           $or: [
             { firstName: { $regex: req.query.search, $options: "i" } },
-            { email: { $regex: req.query.search, $options: "i" } },
+            // { email: { $regex: req.query.search, $options: "i" } },
           ],
         }
       : {};

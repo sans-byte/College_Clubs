@@ -4,8 +4,7 @@ import { FiSearch } from "react-icons/fi";
 import ChatLoading from "../../components/ChatLoading";
 import ChatCardStatic from "./ChatCardStatic";
 import MyChat from "./MyChat";
-function 
-ShowChats() {
+function ShowChats() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
@@ -24,11 +23,11 @@ ShowChats() {
         Accept: "application/json",
         "Content-Type": "application/json",
       });
-      setLoading(false);
       const data = await res.json();
       if (res.status === 200) {
         console.log(data);
         setSearchResults(data);
+        setLoading(false);
       }
     } catch (error) {
       console.log(error);
@@ -48,12 +47,12 @@ ShowChats() {
           userId,
         }),
       });
+      setLoading(false);
       const data = await res.json();
       if (res.status === 200) {
         console.log(data);
         setSearch("");
         setSelectedChat(data);
-        setLoading(false);
       }
     } catch (error) {
       console.log(error);

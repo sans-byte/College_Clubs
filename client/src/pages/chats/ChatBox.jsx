@@ -39,6 +39,7 @@ function ChatBox() {
     },
   };
 
+  console.log(selected);
   const fetchMessages = async () => {
     if (!selected) {
       return;
@@ -149,7 +150,7 @@ function ChatBox() {
         <div className="w-full  bg-slate-600 rounded-md flex flex-col">
           <div className="flex flex-row rounded-md items-center px-2 py-auto bg-slate-800">
             <div className="w-10 h-10 mr-2 my-1 rounded-full bg-white">
-              <img src={``} alt="" />
+              <img src={``} className="overflow-hidden" />
             </div>
             <p> {`Sanskar`} </p>
             <div className="ml-auto flex flex-row text-xl">
@@ -166,11 +167,11 @@ function ChatBox() {
               <RiLoader5Fill className="animate-spin text-5xl text-primary" />
             </div>
           ) : (
-            <div className="flex w-full max-h-[520px] overflow-hidden">
+            <div className="flex w-full h-[480px] overflow-hidden">
               <ScrollableChat messages={message} />
             </div>
           )}
-          <div className="flex flex-row rounded-md items-center px-2 py-auto  mt-auto">
+          <div className="flex flex-row rounded-md items-center px-2 py-auto  mt-auto h-10 w-full">
             {isTyping ? (
               <div>
                 {" "}

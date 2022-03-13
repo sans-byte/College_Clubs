@@ -28,8 +28,6 @@ const server = app.listen(
   console.log(`Connection successfull at ${process.env.PORT}`)
 );
 
-console.log("hi");
-
 const io = require("socket.io")(server, {
   pingTimeout: 600000,
   cors: {

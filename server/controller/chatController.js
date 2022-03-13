@@ -59,7 +59,7 @@ exports.fetchChatsController = async (req, res) => {
       .then(async (results) => {
         results = await User.populate(results, {
           path: "latestMessage.sender",
-          select: "firstName email",
+          select: "firstName email info",
         });
         res.status(200).send(results);
       });
