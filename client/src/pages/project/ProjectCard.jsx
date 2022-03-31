@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { FiHeart, FiMessageCircle, FiSend } from "react-icons/fi";
+import { FiCalendar, FiHeart, FiMessageCircle, FiSend, FiUser, FiUsers } from "react-icons/fi";
 import TimeAgo from "react-timeago";
 
 function ProjectCard({ project }) {
@@ -52,7 +52,7 @@ function ProjectCard({ project }) {
 
   return (
     <div className="lg:card-side card-bordered bg-neutral text-white shadow-md mb-3 rounded-md">
-      <div className="flex flex-row items-center px-2 py-auto">
+      <div className="flex flex-row items-center px-2 py-auto bg-neutral-focus">
         <div className="w-10 h-10 mr-2 my-1 rounded-full overflow-hidden bg-white">
           <img src={authorData.picture} alt="" />
         </div>
@@ -64,32 +64,33 @@ function ProjectCard({ project }) {
       </div>
       <hr className="border-black" />
       <div className="p-3">
-        <h2 className="text-lg font-semibold">{project.title}</h2>
-        <p>{project.description}</p>
-        <div className="flex flex-row justify-between">
+        <h2 className="text-lg font-semibold text-primary-focus">{project.title}</h2>
+        <p className="truncate">{project.description}</p>
+        <div className="flex flex-col justify-between">
           <h3 className="text-base mt-2 font-semibold">
-            Members Required - {project.membersRequired}
+            <FiUsers className="inline text-primary mx-2"/> Members Required - {project.membersRequired}
           </h3>
           <h3 className="text-base mt-2 font-semibold">
-            Last Date - {date(project.lastApplyDate)}
+            <FiCalendar className = "inline text-warning mx-2"/>Last Date - {date(project.lastApplyDate)}
           </h3>
         </div>
-        <div className="mt-2 flex flex-row justify-between">
-          <button className="btn btn-success ">Ping</button>
-          <button className="btn btn-info">More info</button>
-        </div>
+        <div className="mt-2 flex flex-row justify-end"></div>
       </div>
       <hr className="border-black" />
-      <div>
-        <button className="btn text-xl btn-ghost">
+      <div className="bg-neutral-content p-2 text-neutral flex flex-row justify-start items-center">
+        <button className="text-2xl mx-1 text-red-500">
           <FiHeart />
         </button>
-        <button className="btn text-xl btn-ghost">
+        <span className="mr-2"> 5 </span>
+        <button className="text-2xl mx-1">
           <FiMessageCircle />
         </button>
-        <button className="btn text-xl btn-ghost">
+        <span className="mr-2"> 5 </span>
+        <button className="text-2xl mx-1">
           <FiSend />
-        </button>
+        </button>{" "}
+        <button className="btn btn-ghost btn-sm ml-auto">More info</button>
+        <button className="btn btn-success btn-sm mx-2">Ping</button>
       </div>
     </div>
   );

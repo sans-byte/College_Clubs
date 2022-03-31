@@ -20,6 +20,22 @@ exports.getProjects = async (req, res) => {
   }
 };
 
+exports.getMyProject = async (req, res) => {
+  try {
+    await Project.find({ "author.id": req.UserID }).exec((err, result) => {
+      if (err) {
+        console.log(err);
+        res.status(400).json("Error in finding my projects");
+      } else {
+        res.status(200).send(result);
+      }
+    });
+  } catch (error) {
+    res.status(400).json(error);
+    console.log(error);
+  }
+};
+
 exports.postProject = async (req, res) => {
   try {
     const {

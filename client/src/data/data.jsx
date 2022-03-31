@@ -4,7 +4,7 @@ import { FiCalendar, FiHome, FiMessageCircle, FiPenTool, FiUser } from "react-ic
 export const sideDrawerData = [
   {
     title: "Home",
-    path: "#",
+    path: "/user",
     icon: <FiHome className="inline p-0 m-0 border-0" />,
   },
   {
@@ -14,7 +14,7 @@ export const sideDrawerData = [
   },
   {
     title: "Project",
-    path: "#",
+    path: "/myprojects",
     icon: <FiPenTool className="inline" />,
   },
   {

@@ -6,7 +6,7 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import SideDrawer from "../components/SideDrawer";
 
-function Navbar() {
+function Navbar({ front }) {
   const { userData, userInfo } = useContext(UserContext);
   const [showSideDrawer, setShowSideDrawer] = useState(false);
   // const data = (userInfo) => {
@@ -51,29 +51,30 @@ function Navbar() {
         <div className="flex flex-row justify-between w-full">
           <Logo className="w-10 h-10 inline ml-3 cursor-pointer" />
           <div className="text-2xl text-primary">SPACE</div>
+
           <div className="flex flex-row">
-            {!userData ? (
+            {!userData && front ? (
               <Link to="/register">
                 <button className="px-3 py-2 mx-2 btn-primary rounded-lg cursor-pointer">
                   Register
                   <FiArrowRight className="ml-1 inline" />
                 </button>
               </Link>
-            ) : (
+            ) : front ? (
               <p className="m-auto text-primary">
                 {"Welcome " +
                   `${userData.firstName}`.charAt(0).toUpperCase() +
                   `${userData.firstName}`.slice(1)}
               </p>
-            )}
+            ) : null}
 
-            {!userData ? (
+            {!userData && front ? (
               <Link to="/login">
                 <button className="px-3 py-2 mx-2 btn-primary rounded-lg cursor-pointer">
                   Login
                 </button>
               </Link>
-            ) : (
+            ) : front ? (
               <Link to="">
                 <button
                   className="px-3 py-2 mx-2 btn-primary rounded-lg cursor-pointer"
@@ -82,12 +83,12 @@ function Navbar() {
                   Logout
                 </button>
               </Link>
-            )}
+            ) : null}
             {userInfo ? (
               <div className="avatar">
                 <div className="w-10 h-10 rounded-full">
                   <img
-                    src={`${(userInfo.picture)}`}
+                    src={`${userInfo.picture}`}
                     alt=""
                     className="object-cover"
                   />

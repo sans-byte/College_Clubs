@@ -1,62 +1,66 @@
 const mongoose = require("mongoose");
+const moment = require("moment");
 
-const projectSchema = new mongoose.Schema({
-  author: {
-    id: {
-      // TODO  : add author's id here make one to many relationship :- object refrence.
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+const projectSchema = new mongoose.Schema(
+  {
+    author: {
+      id: {
+        // TODO  : add author's id here make one to many relationship :- object refrence.
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+      userName: {
+        type: String,
+      },
     },
-    userName: {
+    title: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    membersRequired: {
+      type: String,
+      required: true,
+    },
+    pings: {
+      type: Number,
+    },
+    generationDate: {
+      type: Date,
+      default: moment().format("lll"),
+      required: true,
+    },
+    lastApplyDate: {
+      type: Date,
+      // INFO : add 7 days in the current date;
+      default: +new Date() + 7 * 24 * 60 * 60 * 1000,
+      required: true,
+    },
+    interest: {
+      type: String,
+      required: true,
+    },
+    field: {
       type: String,
     },
-  },
-  title: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  membersRequired: {
-    type: String,
-    required: true,
-  },
-  pings: {
-    type: Number,
-  },
-  generationDate: {
-    type: Date,
-    default: new Date(),
-    required: true,
-  },
-  lastApplyDate: {
-    type: Date,
-    // INFO : add 7 days in the current date;
-    default: +new Date() + 7 * 24 * 60 * 60 * 1000,
-    required: true,
-  },
-  interest: {
-    type: String,
-    required: true,
-  },
-  field: {
-    type: String,
-  },
-  likes: {
-    type: Number,
-    default: 0,
-  },
-  comment: [
-    {
-      // TODO : add comment id
-      type: String,
-      ref: "Comment",
+    likes: {
+      type: Number,
+      default: 0,
     },
-  ],
-},{
-  timestamps:true
-});
+    comment: [
+      {
+        // TODO : add comment id
+        type: String,
+        ref: "Comment",
+      },
+    ],
+  },
+  {
+    timestamps: true,
+  }
+);
 
 module.exports = mongoose.model("Project", projectSchema);

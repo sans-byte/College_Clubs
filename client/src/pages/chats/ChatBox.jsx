@@ -16,6 +16,7 @@ import io from "socket.io-client";
 import UserContext from "../../context/UserContext";
 import Lottie from "react-lottie";
 import animationData from "../../svgs/77160-typing.json";
+import { FaSkullCrossbones } from "react-icons/fa";
 
 const ENDPOINT = "http://localhost:5000";
 let socket, selectedChatCompare;
@@ -159,8 +160,9 @@ function ChatBox() {
   return (
     <div className="lg:w-1/2 h-full">
       {!selected ? (
-        <div className="text-center mt-10 h-full text-xl">
-          No Chats Found...
+        <div className="flex h-2/3 justify-center items-center">
+          <FaSkullCrossbones className="text-xl mx-2"/>
+          <p> No chats found...</p>
         </div>
       ) : (
         <div className="w-full  bg-slate-600 rounded-md flex flex-col">

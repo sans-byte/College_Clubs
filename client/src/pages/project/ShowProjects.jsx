@@ -128,7 +128,7 @@ function ShowProjects() {
       <div className="h-screen flex flex-col">
         <div className={`${modal ? "opacity-60" : null}`}>
           <div>
-            <Navbar userData={userData} />
+            <Navbar front={true}/>
           </div>
           <div>
             <ShowProjectsPage />
