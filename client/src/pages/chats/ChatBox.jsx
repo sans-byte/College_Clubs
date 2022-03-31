@@ -21,14 +21,15 @@ const ENDPOINT = "http://localhost:5000";
 let socket, selectedChatCompare;
 
 function ChatBox() {
+  const { userData } = useContext(UserContext);
   const { selected } = useContext(ChatContext);
   const [message, setMessage] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState("");
-  const { userData } = useContext(UserContext);
   const [socketConnected, setSocketConnected] = useState(false);
   const [typing, setTyping] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+  const [image, setImage] = useState();
 
   const defaultOptions = {
     loop: true,
@@ -39,7 +40,7 @@ function ChatBox() {
     },
   };
 
-  console.log(selected);
+  // console.log(selected);
   const fetchMessages = async () => {
     if (!selected) {
       return;
@@ -54,7 +55,7 @@ function ChatBox() {
       });
       const data = await res.json();
       if (res.status == 200) {
-        console.log(data);
+        // console.log(data);
         setMessage(data);
         setLoading(false);
 
@@ -80,6 +81,21 @@ function ChatBox() {
   useEffect(() => {
     fetchMessages();
     selectedChatCompare = selected;
+
+    // const data = (userInfo) => {
+    //   let TYPED_ARRAY = new Uint8Array(userInfo.picture.data.data);
+    //   const blob = new Blob([TYPED_ARRAY], { type: "image/jpeg" });
+    //   let urlCreator = window.URL || window.webkitURL;
+    //   let imageUrl = urlCreator.createObjectURL(blob);
+    //   return imageUrl;
+    // };
+    if (userData && selected) {
+      if (userData._id == selected.users[0]._id) {
+        setImage(selected.users[1].info.picture);
+      } else {
+        setImage(selected.users[0].info.picture);
+      }
+    }
   }, [selected]);
 
   useEffect(() => {
@@ -111,7 +127,7 @@ function ChatBox() {
       });
       const data = await res.json();
       setMessage([...message, data]);
-      console.log(data);
+      // console.log(data);
 
       socket.emit("new message", data);
     } catch (error) {
@@ -149,10 +165,18 @@ function ChatBox() {
       ) : (
         <div className="w-full  bg-slate-600 rounded-md flex flex-col">
           <div className="flex flex-row rounded-md items-center px-2 py-auto bg-slate-800">
-            <div className="w-10 h-10 mr-2 my-1 rounded-full bg-white">
-              <img src={``} className="overflow-hidden" />
+            <div className="avatar">
+              <div className="w-10 h-10 mr-2 my-1 rounded-full bg-white">
+                <img src={image} className="overflow-hidden " />
+              </div>
             </div>
-            <p> {`Sanskar`} </p>
+            <p>
+              {selected.isGroupChat
+                ? selected.chatName
+                : selected.users[0]._id == userData._id
+                ? selected.users[1].firstName
+                : selected.users[0].firstName}{" "}
+            </p>
             <div className="ml-auto flex flex-row text-xl">
               <button className="mx-2">
                 <FiVideo className="text-xl" />
@@ -174,7 +198,6 @@ function ChatBox() {
           <div className="flex flex-row rounded-md items-center px-2 py-auto  mt-auto h-10 w-full">
             {isTyping ? (
               <div>
-                {" "}
                 <Lottie
                   options={defaultOptions}
                   // height={50}

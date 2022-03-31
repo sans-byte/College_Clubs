@@ -75,7 +75,7 @@ function UserInfo() {
     });
     const data = await res;
     if (res.status === 200) {
-      navigate(`/user/${id}`);
+      navigate(`/user`);
     } else {
       navigate(`/login`);
     }

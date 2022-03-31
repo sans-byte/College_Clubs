@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import UserContext from "../../context/UserContext";
 import { FaGoogle } from "react-icons/fa";
 import { GoogleLogin } from "react-google-login";
+import { Link } from "react-router-dom";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -56,9 +57,11 @@ function LoginPage() {
         setAlert(true);
         console.log("invalid credentials");
       } else if (res.status === 200 && data.info) {
-        console.log("login success");
-        console.log(data);
-        navigate(`/user/${data._id}`);
+        // console.log("login success");
+        // console.log(data);
+        // navigate(`/user/${data._id}`);
+        navigate("/user");
+
         // getUserData(data);
       } else if (res.status === 200 && !data.info) {
         navigate(`/userinfo/${data._id}`);
@@ -146,22 +149,28 @@ function LoginPage() {
                     setPassword(e.target.value);
                   }}
                 />
-                <label className="label">
-                  <a href="#" className="label-text-alt">
-                    Forgot password?
-                  </a>
-                </label>
               </div>
               <p className="text-center text-red-500">
                 {submit ? formError.password : null}
               </p>
-              <div className="form-control mt-6">
+              <label className="label">
+                <a href="#" className="label-text-alt">
+                  Forgot password?
+                </a>
+              </label>
+              <div className="form-control mt-4">
                 <input
                   type="submit"
                   value="Login"
                   className="btn btn-secondary"
                 />
               </div>
+              <p className="text-xs mt-2">
+                Don't have an account?
+                <Link to="/register">
+                  <span className="text-primary"> Create one</span>
+                </Link>
+              </p>
             </form>
           </div>
         </div>

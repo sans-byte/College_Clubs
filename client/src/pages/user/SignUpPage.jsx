@@ -79,7 +79,7 @@ function SignUpPage() {
         console.log("User already exist");
       } else {
         setMessage("Success");
-        console.log("Success");
+        // console.log("Success");
         // window.alert("Registration success");
         // navigate("/login");
       }
@@ -274,7 +274,7 @@ function SignUpPage() {
                     </button>
                   )} */}
                 </div>
-                <p className="text-neutral">
+                <p className="text-xs mt-2">
                   Already have an account ?
                   <Link to="/login">
                     <span className="text-primary"> Login </span>

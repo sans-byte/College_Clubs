@@ -18,7 +18,7 @@ router.get("/user/:id", Authenticate, (req, res) => {
   res.send(req.rootUser);
 });
 
-router.get("/find", allUsersController);
+router.get("/find",Authenticate, allUsersController);
 
 router.get("/logout", logoutController);
 

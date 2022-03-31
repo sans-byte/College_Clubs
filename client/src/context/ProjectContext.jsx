@@ -6,24 +6,26 @@ const ProjectContext = createContext();
 export const ProjectProvider = ({ children }) => {
   const { userInfo } = useContext(UserContext);
   const [projectList, setProjectList] = useState([]);
-  console.log(userInfo);
+  // console.log(userInfo);
   const getProjectData = async () => {
-    try {
-      const res = await fetch(`/projects/${userInfo.interest}`, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      });
-      const projectData = await res.json();
-      if (res.status === 200) {
-        setProjectList(projectData.reverse());
-      } else {
-        console.log("something is wrong here");
+    if (userInfo) {
+      try {
+        const res = await fetch(`/projects/${userInfo.interest}`, {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        });
+        const projectData = await res.json();
+        if (res.status === 200) {
+          setProjectList(projectData.reverse());
+        } else {
+          console.log("something is wrong here");
+        }
+      } catch (err) {
+        console.log(err);
       }
-    } catch (err) {
-      console.log(err);
     }
   };
 
@@ -31,9 +33,9 @@ export const ProjectProvider = ({ children }) => {
     getProjectData();
   }, [userInfo]);
 
-  console.log(projectList, "From project context");
+  // console.log(projectList, "From project context");
   return (
-    <ProjectContext.Provider value={{ projectList ,getProjectData}}>
+    <ProjectContext.Provider value={{ projectList, getProjectData }}>
       {children}
     </ProjectContext.Provider>
   );

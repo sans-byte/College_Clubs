@@ -9,7 +9,7 @@ function SideDrawer({ sidebar }) {
       <div
         className={`${
           !sidebar ? "-translate-x-full" : null
-        } lg:w-1/6 md:w-1/5 sm:w-1/5 text-white h-full fixed bg-neutral transition duration-500 ease-in-out flex justify-center items-center`}
+        } lg:w-1/6 md:w-1/5 sm:w-1/5 text-white h-full fixed bg-neutral transition duration-500 ease-in-out flex justify-center items-center z-10`}
       >
         <div>
           <ul className="flex flex-col items-center justify-center w-full h-full">

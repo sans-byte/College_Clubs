@@ -1,13 +1,13 @@
 import React from "react";
 
 function ChatCard({ userData, handleAccessChat }) {
-  const data = (userInfo) => {
-    let TYPED_ARRAY = new Uint8Array(userInfo.picture.data.data);
-    const blob = new Blob([TYPED_ARRAY], { type: "image/jpeg" });
-    let urlCreator = window.URL || window.webkitURL;
-    let imageUrl = urlCreator.createObjectURL(blob);
-    return imageUrl;
-  };
+  // const data = (userInfo) => {
+  //   let TYPED_ARRAY = new Uint8Array(userInfo.picture.data.data);
+  //   const blob = new Blob([TYPED_ARRAY], { type: "image/jpeg" });
+  //   let urlCreator = window.URL || window.webkitURL;
+  //   let imageUrl = urlCreator.createObjectURL(blob);
+  //   return imageUrl;
+  // };
 
   return (
     <div
@@ -17,15 +17,15 @@ function ChatCard({ userData, handleAccessChat }) {
         handleAccessChat(userData._id);
       }}
     >
-      <div class="avatar">
-        <div class="w-10 h-10 rounded-full mx-4">
-          <img src={data(userData.info)} />
+      <div className="avatar">
+        <div className="w-10 h-10 rounded-full mx-4">
+          <img src={userData.info.picture} />
         </div>
       </div>
       <div>
         {`${userData.firstName}`.slice(0, 1).toUpperCase() +
           `${userData.firstName}`.slice(1)}
-        {/* <p className="text-xs text-gray-600"> latest message</p> */}
+        <p className="text-xs text-gray-600"> {userData.email}</p>
       </div>
     </div>
   );

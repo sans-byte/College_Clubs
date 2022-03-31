@@ -36,7 +36,7 @@ function App() {
                 element={<ActivationPage />}
               ></Route>
               <Route path="/userinfo/:id" element={<UserInfo />}></Route>
-              <Route path="/user/:id" element={<ShowProjects />}></Route>
+              <Route path="/user" element={<ShowProjects />}></Route>
               <Route path="/api/chat" element={<ChatsPage />}></Route>
             </Routes>
           </Router>

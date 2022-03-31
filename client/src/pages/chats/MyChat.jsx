@@ -23,7 +23,7 @@ function MyChat() {
       setLoading(false);
       const data = await res.json();
       if (res.status === 200) {
-        console.log(data);
+        // console.log(data);
         setCurrentChats(data);
         // setSearchResults(data);
       }

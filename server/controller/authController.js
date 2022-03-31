@@ -6,6 +6,13 @@ const { google } = require("googleapis");
 const formidable = require("formidable");
 const fs = require("fs");
 const bcrypt = require("bcryptjs");
+const cloudinary = require("cloudinary").v2;
+
+cloudinary.config({
+  cloud_name: "dfmpvptxb",
+  api_key: "885642517112419",
+  api_secret: "E18rO5pxjc9UXOECTbf_FLhn3Tc",
+});
 
 // info : transporter function to send email
 const createTransporter = async () => {
@@ -125,6 +132,7 @@ exports.activationController = async (req, res) => {
 
 // info : controller for taking user information and add it to the database
 exports.postUserInfoController = async (req, res) => {
+  // console.log(req);
   const form = new formidable.IncomingForm();
   form.parse(req, async (err, fields, file) => {
     if (fields) {
@@ -138,13 +146,41 @@ exports.postUserInfoController = async (req, res) => {
     if (file.resume && file.picture) {
       const userData = new UserData(fields);
       // info : saving user id into the user data
+      // console.log(file.resume);
+      // console.log(file.picture);
       const id = req.params.id;
       userData.user.id = id;
-      userData.picture.data = fs.readFileSync(file.picture.filepath);
-      userData.picture.contentType = file.picture.type;
-      userData.resume.data = fs.readFileSync(file.resume.filepath);
-      userData.resume.contentType = file.resume.type;
 
+      // it will upload image on cloudinary and store url in database
+      await cloudinary.uploader.upload(
+        file.picture.filepath,
+        { upload_preset: "college-clubbing" },
+        (err, result) => {
+          if (err) {
+            console.log(err);
+          } else {
+            userData.picture = result.secure_url;
+          }
+        }
+      );
+      // userData.resume.data = fs.readFileSync(file.resume.filepath);
+      await cloudinary.uploader.upload(
+        file.resume.filepath,
+        {
+          resource_type: "raw",
+          upload_preset: "college-clubbing-resume",
+          format: "pdf",
+        },
+        (err, result) => {
+          if (err) {
+            console.log(err);
+          } else {
+            userData.resume = result.secure_url;
+          }
+        }
+      );
+      // userData.resume.contentType = file.resume.type;
+      console.log("data saved");
       await userData.save(async (err, userData) => {
         if (err) {
           return res.json({
@@ -256,20 +292,30 @@ exports.allUsersController = async (req, res) => {
       ? {
           $or: [
             { firstName: { $regex: req.query.search, $options: "i" } },
-            // { email: { $regex: req.query.search, $options: "i" } },
+            { email: { $regex: req.query.search, $options: "i" } },
           ],
         }
       : {};
     // it will return users exept the currently logged in user
     // we have to use it later when we will use authenticate middleware here
-    // const users = await (await User.find(keyword)).find({_id:{$ne:req.user._id}});
-    const users = await User.find(keyword).populate("info");
+    // const users = await (await User.find(keyword)).find({_id:{$ne:req.UserID}});
+    let users = await User.find(keyword).find({ _id: { $ne: req.UserID } });
+    // const result = users.filter((ele) => {
+    //   console.log(ele._id);
+    //   console.log(req.UserID);
+    //   return ele._id != req.UserID;
+    // });
+    // console.log(req.UserID);
+    // console.log(result);
+    users = await UserData.populate(users, {
+      path: "info",
+      select: "picture",
+    });
     if (users) {
       res.status(200).send(users);
-      console.log(keyword);
     }
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(400).json({ message: error });
     console.log(error);
   }
 };

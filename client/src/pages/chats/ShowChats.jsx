@@ -25,7 +25,7 @@ function ShowChats() {
       });
       const data = await res.json();
       if (res.status === 200) {
-        console.log(data);
+        // console.log(data);
         setSearchResults(data);
         setLoading(false);
       }
@@ -37,7 +37,7 @@ function ShowChats() {
   const handleAccessChat = async (userId) => {
     try {
       setLoading(true);
-      console.log(userId);
+      // console.log(userId);
       const res = await fetch(`/api/chat`, {
         method: "POST",
         headers: {
@@ -50,7 +50,7 @@ function ShowChats() {
       setLoading(false);
       const data = await res.json();
       if (res.status === 200) {
-        console.log(data);
+        // console.log(data);
         setSearch("");
         setSelectedChat(data);
       }

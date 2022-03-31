@@ -38,6 +38,8 @@ const userSchema = new mongoose.Schema({
       },
     },
   ],
+},{
+  timestamps:true
 });
 
 // INFO : hash password before saving in database using pre save middleware

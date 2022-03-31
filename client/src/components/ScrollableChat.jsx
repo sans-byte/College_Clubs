@@ -1,9 +1,19 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ScrollableFeed from "react-scrollable-feed";
 import UserContext from "../context/UserContext";
 
 function ScrollableChat({ messages }) {
+  // console.log(messages);
   const { userData } = useContext(UserContext);
+  const [image, setImage] = useState();
+
+  // const data = (userInfo) => {
+  //   let TYPED_ARRAY = new Uint8Array(userInfo.picture.data.data);
+  //   const blob = new Blob([TYPED_ARRAY], { type: "image/jpeg" });
+  //   let urlCreator = window.URL || window.webkitURL;
+  //   let imageUrl = urlCreator.createObjectURL(blob);
+  //   return imageUrl;
+  // };
 
   const isSameSender = (messages, m, i, userId) => {
     return (
@@ -39,13 +49,15 @@ function ScrollableChat({ messages }) {
               isLastMessage(messages, i, userData._id)) && (
               <div class="avatar mt-1">
                 <div class="w-8 h-8 rounded-full">
-                  <img src="https://api.lorem.space/image/face?hash=92310" />
+                  <img src={m.sender.info.picture} />
                 </div>
               </div>
             )}
             <span
               className={`${
-                m.sender._id === userData._id ? "bg-gray-400 ml-auto mr-2" : "bg-primary ml-2"
+                m.sender._id === userData._id
+                  ? "bg-gray-400 ml-auto mr-2"
+                  : "bg-primary ml-2"
               } rounded-lg px-4 py-1
               )} mt-2`}
             >

@@ -8,13 +8,12 @@ import Online from "./Online";
 import ShowChats from "./ShowChats";
 
 function ChatsPage() {
-  const { userData } = useContext(UserContext);
-  const { selected } = useContext(ChatContext);
-  console.log(selected);
+  // const { userData } = useContext(UserContext);
+  // const { selected } = useContext(ChatContext);
   return (
     <div className="text-white h-screen">
       <ChatsNav />
-      <div className="flex flex-row h-[80%]">
+      <div className="flex flex-row h-screen pt-20">
         <ShowChats />
         <ChatBox />
         <Online />

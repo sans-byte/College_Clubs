@@ -7,7 +7,6 @@ import UserContext from "../context/UserContext";
 
 function LandingNav() {
   const { userData } = useContext(UserContext);
-  console.log(userData, "userData from navbar");
 
   return (
     <nav className="navbar mb-2 shadow-lg bg-neutral text-neutral-content fixed w-full bg-opacity-80">

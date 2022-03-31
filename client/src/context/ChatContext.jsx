@@ -4,6 +4,7 @@ const ChatContext = createContext();
 
 export const ChatProvider = ({ children }) => {
   const [selected, setSelected] = useState();
+  
   return (
     <ChatContext.Provider
       value={{

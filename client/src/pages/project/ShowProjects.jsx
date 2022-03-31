@@ -9,10 +9,9 @@ import AddProjectForm from "./AddProjectForm";
 import ProjectContext, { ProjectProvider } from "../../context/ProjectContext";
 
 function ShowProjects() {
-  const navigate = useNavigate();
-  const { getId, getUserInfo } = useContext(UserContext);
-  const { getProjectList } = useContext(ProjectContext);
-  const { id } = useParams();
+  // const navigate = useNavigate();
+  // const { getUserInfo } = useContext(UserContext);
+  // const { getProjectList } = useContext(ProjectContext);
 
   // console.log(userData, "This is from show projects page");
   // info : gettig user so that to use its info id to use to get information about the user
@@ -37,7 +36,7 @@ function ShowProjects() {
   //     // navigate("/login");
   //   }
   // };
-  getId(id);
+  // getId(id);
   // getUser(id);
 
   // info : getting user information anout interest so to use it to show projects depending upon interests
@@ -117,13 +116,19 @@ function ShowProjects() {
   //   </div>
   // );
 
+  const { userData, getUser } = useContext(UserContext);
+  // getUser();
+  useEffect(() => {
+    getUser();
+  }, []);
+
   const [modal, setModal] = useState(false);
   return (
     <>
       <div className="h-screen flex flex-col">
         <div className={`${modal ? "opacity-60" : null}`}>
           <div>
-            <Navbar />
+            <Navbar userData={userData} />
           </div>
           <div>
             <ShowProjectsPage />
@@ -138,7 +143,8 @@ function ShowProjects() {
             <FiPlus className="text-xl" />
           </button>
         </div>
-        <AddProjectForm modal={modal} setModal={setModal} userId={id} />
+        {/* <AddProjectForm modal={modal} setModal={setModal} userId={id} /> */}
+        <AddProjectForm modal={modal} setModal={setModal} />
       </div>
     </>
   );

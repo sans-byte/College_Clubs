@@ -21,7 +21,7 @@ function ShowProjectsPage() {
           </button>
         </div>
       </div>
-      <div className="max-h-screen overflow-y-scroll px-1">
+      <div className="h-screen overflow-y-scroll px-1">
         <ProjectList />
       </div>
     </div>

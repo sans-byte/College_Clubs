@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { FiHeart, FiMessageCircle, FiSend } from "react-icons/fi";
+import { FaSkullCrossbones } from "react-icons/fa";
 import { useContext } from "react";
 import ProjectCard from "./ProjectCard";
 import ProjectContext from "../../context/ProjectContext";
@@ -18,7 +17,10 @@ function ProjectList() {
           ))}
         </ul>
       ) : (
-        <div className="text-center text-neutral text-4xl pt-10 bg-white h-full">No Projects </div>
+        <div className="flex justify-center items-center h-5/6 w-full flex-col">
+          <FaSkullCrossbones className="text-xl"/>
+          <p>No Projects Found...</p>
+        </div>
       )}
     </>
   );

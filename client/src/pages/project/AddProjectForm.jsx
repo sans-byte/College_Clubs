@@ -5,6 +5,7 @@ import UserContext from "../../context/UserContext";
 
 function AddProjectForm({ modal, setModal, userId }) {
   const { getProjectData } = useContext(ProjectContext);
+  const { userData } = useContext(UserContext);
 
   const navigate = useNavigate();
   const [projectData, setProjectData] = useState({
@@ -38,7 +39,7 @@ function AddProjectForm({ modal, setModal, userId }) {
       likes,
       comment,
     } = projectData;
-    const res = await fetch(`/projects/${userId}`, {
+    const res = await fetch(`/projects/${userData._id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

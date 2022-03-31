@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { FiHeart, FiMessageCircle, FiSend } from "react-icons/fi";
+import TimeAgo from "react-timeago";
 
 function ProjectCard({ project }) {
   const [authorData, setAuthorData] = useState({});
-  const [image, setImage] = useState("");
 
   const date = (someDate) => {
     let helpDate = new Date();
@@ -14,14 +14,14 @@ function ProjectCard({ project }) {
     return newDate.toString().slice(0, 10);
   };
 
-  const getUserImage = (authorData) => {
-    //   console.log(authorData);
-    let TYPED_ARRAY = new Uint8Array(authorData.picture.data.data);
-    const blob = new Blob([TYPED_ARRAY], { type: "image/jpeg" });
-    let urlCreator = window.URL || window.webkitURL;
-    let imageUrl = urlCreator.createObjectURL(blob);
-    setImage(imageUrl);
-  };
+  // const getUserImage = (authorData) => {
+  //   //   console.log(authorData);
+  //   let TYPED_ARRAY = new Uint8Array(authorData.picture.data.data);
+  //   const blob = new Blob([TYPED_ARRAY], { type: "image/jpeg" });
+  //   let urlCreator = window.URL || window.webkitURL;
+  //   let imageUrl = urlCreator.createObjectURL(blob);
+  //   setImage(imageUrl);
+  // };
 
   const getAuthorInfo = async (project) => {
     try {
@@ -33,7 +33,7 @@ function ProjectCard({ project }) {
       const data = await res.json();
       if (res.status === 200) {
         setAuthorData(data);
-        getUserImage(data);
+        // getUserImage(data);
       } else {
         console.log("Something went wrong in project list getAuthorInfo");
       }
@@ -42,22 +42,25 @@ function ProjectCard({ project }) {
     }
   };
 
-  useEffect(()=>{
-      getAuthorInfo(project);
-  },[]);
+  useEffect(() => {
+    getAuthorInfo(project);
+  }, []);
 
-//   useEffect(() => {
-//       getUserImage(authorData);
-//   }, [authorData]);
+  //   useEffect(() => {
+  //       getUserImage(authorData);
+  //   }, [authorData]);
 
   return (
     <div className="lg:card-side card-bordered bg-neutral text-white shadow-md mb-3 rounded-md">
       <div className="flex flex-row items-center px-2 py-auto">
         <div className="w-10 h-10 mr-2 my-1 rounded-full overflow-hidden bg-white">
-          <img src={`${image}`} alt="" />
+          <img src={authorData.picture} alt="" />
         </div>
         <p> {project.author.userName} </p>
-        <div className="ml-auto">{date(project.generationDate)}</div>
+        <div className="ml-auto">
+          {/* {date(project.generationDate)} */}
+          <TimeAgo date={project.generationDate} />
+        </div>
       </div>
       <hr className="border-black" />
       <div className="p-3">

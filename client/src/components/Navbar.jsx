@@ -9,13 +9,13 @@ import SideDrawer from "../components/SideDrawer";
 function Navbar() {
   const { userData, userInfo } = useContext(UserContext);
   const [showSideDrawer, setShowSideDrawer] = useState(false);
-  const data = (userInfo) => {
-    let TYPED_ARRAY = new Uint8Array(userInfo.picture.data.data);
-    const blob = new Blob([TYPED_ARRAY], { type: "image/jpeg" });
-    let urlCreator = window.URL || window.webkitURL;
-    let imageUrl = urlCreator.createObjectURL(blob);
-    return imageUrl;
-  };
+  // const data = (userInfo) => {
+  //   let TYPED_ARRAY = new Uint8Array(userInfo.picture.data.data);
+  //   const blob = new Blob([TYPED_ARRAY], { type: "image/jpeg" });
+  //   let urlCreator = window.URL || window.webkitURL;
+  //   let imageUrl = urlCreator.createObjectURL(blob);
+  //   return imageUrl;
+  // };
 
   const navigate = useNavigate();
 
@@ -87,7 +87,7 @@ function Navbar() {
               <div className="avatar">
                 <div className="w-10 h-10 rounded-full">
                   <img
-                    src={`${data(userInfo)}`}
+                    src={`${(userInfo.picture)}`}
                     alt=""
                     className="object-cover"
                   />
