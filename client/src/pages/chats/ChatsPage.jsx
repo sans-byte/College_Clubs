@@ -18,7 +18,7 @@ function ChatsPage() {
       <div className="flex flex-row h-screen pt-20">
         <ShowChats />
         <ChatBox />
-        <Online />
+        {/* <Online /> */}
       </div>
     </div>
   );

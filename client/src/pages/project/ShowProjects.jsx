@@ -117,9 +117,11 @@ function ShowProjects() {
   // );
 
   const { userData, getUser } = useContext(UserContext);
+  const { getProjectData } = useContext(ProjectContext);
   // getUser();
   useEffect(() => {
     getUser();
+    getProjectData();
   }, []);
 
   const [modal, setModal] = useState(false);
@@ -128,7 +130,7 @@ function ShowProjects() {
       <div className="h-screen flex flex-col">
         <div className={`${modal ? "opacity-60" : null}`}>
           <div>
-            <Navbar front={true}/>
+            <Navbar front={true} />
           </div>
           <div>
             <ShowProjectsPage />

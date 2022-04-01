@@ -12,6 +12,7 @@ import UserInfo from "./pages/user/UserInfo.jsx";
 import ChatsPage from "./pages/chats/ChatsPage.jsx";
 import { ChatProvider } from "./context/ChatContext.jsx";
 import MyProjectsPage from "./pages/project/MyProjectsPage.jsx";
+import MoreInfoPage from "./pages/project/MoreInfoPage.jsx";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
               <Route path="/user" element={<ShowProjects />}></Route>
               <Route path="/api/chat" element={<ChatsPage />}></Route>
               <Route path="/myprojects" element={<MyProjectsPage />}></Route>
+              <Route path="/moreinfo" element={<MoreInfoPage />}></Route>
             </Routes>
           </Router>
         </ChatProvider>

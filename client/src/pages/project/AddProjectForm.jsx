@@ -12,11 +12,8 @@ function AddProjectForm({ modal, setModal, userId }) {
     title: "",
     description: "",
     membersRequired: "",
-    pings: "",
     lastApplyDate: "",
     field: "",
-    likes: "",
-    comment: "",
   });
 
   const handleChange = (e) => {
@@ -33,11 +30,8 @@ function AddProjectForm({ modal, setModal, userId }) {
       title,
       description,
       membersRequired,
-      pings,
       lastApplyDate,
       field,
-      likes,
-      comment,
     } = projectData;
     const res = await fetch(`/projects/${userData._id}`, {
       method: "POST",
@@ -48,11 +42,8 @@ function AddProjectForm({ modal, setModal, userId }) {
         title,
         description,
         membersRequired,
-        pings,
         lastApplyDate,
         field,
-        likes,
-        comment,
       }),
     });
     const data = await res.json();
@@ -61,11 +52,8 @@ function AddProjectForm({ modal, setModal, userId }) {
         title: "",
         description: "",
         membersRequired: "",
-        pings: "",
         lastApplyDate: "",
         field: "",
-        likes: "",
-        comment: "",
       });
       getProjectData();
     } else {

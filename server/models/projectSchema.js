@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-const moment = require("moment");
-
 const projectSchema = new mongoose.Schema(
   {
     author: {
@@ -17,6 +15,9 @@ const projectSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    image: {
+      type: String,
+    },
     description: {
       type: String,
       required: true,
@@ -25,12 +26,20 @@ const projectSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    pings: {
-      type: Number,
-    },
+    members: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    pings: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
     generationDate: {
       type: Date,
-      default: moment().format("lll"),
       required: true,
     },
     lastApplyDate: {
@@ -46,14 +55,15 @@ const projectSchema = new mongoose.Schema(
     field: {
       type: String,
     },
-    likes: {
-      type: Number,
-      default: 0,
-    },
+    likes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
     comment: [
       {
-        // TODO : add comment id
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Comment",
       },
     ],

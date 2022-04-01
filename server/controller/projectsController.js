@@ -1,11 +1,15 @@
 const Project = require("../models/projectSchema");
 const User = require("../models/userSchema");
 const UserData = require("../models/userDataSchema");
+const {
+  findOneAndUpdate,
+  findByIdAndUpdate,
+} = require("../models/userDataSchema");
 
 exports.getProjects = async (req, res) => {
   const { interest } = req.params;
   try {
-    await Project.find({ interest }).exec((err, projectList) => {
+    await Project.find({ interest }).populate("pings").exec((err, projectList) => {
       if (err) {
         console.log(err, "from get projects");
         return res
@@ -36,7 +40,31 @@ exports.getMyProject = async (req, res) => {
   }
 };
 
+exports.pingProject = async (req, res) => {
+  const { projectId} = req.body;
+  console.log(projectId);
+  try {
+    const updatedProject = await Project.findByIdAndUpdate(
+      projectId,
+      {
+        $push: { pings: req.UserID },
+      },
+      {
+        new: true,
+      }
+    ).populate("pings");
+    if (updatedProject) {
+      res.status(200).send(updatedProject);
+    } else {
+      res.status(400).json("ping failed");
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 exports.postProject = async (req, res) => {
+  const date = new Date();
   try {
     const {
       title,
@@ -64,6 +92,7 @@ exports.postProject = async (req, res) => {
             if (err) {
               console.log(err, "From post Project ");
             } else {
+              project.generationDate = date;
               project.author.id = foundUser._id;
               project.author.userName =
                 foundUser.firstName + " " + foundUser.lastName;

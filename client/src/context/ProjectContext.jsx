@@ -6,8 +6,10 @@ const ProjectContext = createContext();
 export const ProjectProvider = ({ children }) => {
   const { userInfo } = useContext(UserContext);
   const [projectList, setProjectList] = useState([]);
-  // console.log(userInfo);
+  const [selectedProject, setSelectedProject] = useState([]);
+
   const getProjectData = async () => {
+    console.log("running");
     if (userInfo) {
       try {
         const res = await fetch(`/projects/${userInfo.interest}`, {
@@ -35,7 +37,14 @@ export const ProjectProvider = ({ children }) => {
 
   // console.log(projectList, "From project context");
   return (
-    <ProjectContext.Provider value={{ projectList, getProjectData }}>
+    <ProjectContext.Provider
+      value={{
+        projectList,
+        getProjectData,
+        setSelectedProject,
+        selectedProject,
+      }}
+    >
       {children}
     </ProjectContext.Provider>
   );
