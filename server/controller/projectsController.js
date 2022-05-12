@@ -9,16 +9,17 @@ const {
 exports.getProjects = async (req, res) => {
   const { interest } = req.params;
   try {
-    await Project.find({ interest }).populate("pings").exec((err, projectList) => {
-      if (err) {
-        console.log(err, "from get projects");
-        return res
-          .status(400)
-          .json({ error: "Something went wrong in route.js get projects" });
-      } else {
-        return res.status(200).send(projectList);
-      }
-    });
+    await Project.find({ interest })
+      .populate("pings")
+      .then(async (result) => {
+        result = await UserData.populate(result, [
+          {
+            path: "pings.info",
+            select: "picture, resume",
+          },
+        ]);
+        res.status(200).send(result);
+      });
   } catch (error) {
     console.log(error);
   }
@@ -41,7 +42,7 @@ exports.getMyProject = async (req, res) => {
 };
 
 exports.pingProject = async (req, res) => {
-  const { projectId} = req.body;
+  const { projectId } = req.body;
   console.log(projectId);
   try {
     const updatedProject = await Project.findByIdAndUpdate(

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import ProjectContext from "../../context/ProjectContext";
 import UserContext from "../../context/UserContext";
+import Pings from "./Pings";
 
 function MoreInfoPage() {
   const { userData } = useContext(UserContext);
@@ -30,23 +31,7 @@ function MoreInfoPage() {
             <div className="w-full mt-4 flex flex-col  p-2">
               <p className="text-lg text-neutral font-semibold"> Pings </p>
               <hr className="h-[1px] bg-black border-0" />
-              <div className="bg-neutral p-2 flex flex-row px-4 my-2 shadow-sm rounded-sm items-center">
-                <div className="flex flex-col">
-                  <p className="">Sanskar Jain</p>
-                  <p className="text-sm text-gray-500"> sanskarj2@gmail.com </p>
-                </div>
-
-                {selectedProject.author.id === userData._id ? (
-                  <div className = "ml-auto">
-                    <button className="btn btn-info btn-sm">
-                      See Resume
-                    </button>
-                    <button className="btn btn-success btn-sm mx-2">
-                      Approve
-                    </button>
-                  </div>
-                ) : null}
-              </div>
+              {selectedProject.pings.map((ping)=>(<Pings selectedProject = {selectedProject} ping = {ping}/>))}
             </div>
             <div className="w-full mt-4 flex flex-col p-2">
               <p className="text-lg text-neutral font-semibold"> Comments </p>
